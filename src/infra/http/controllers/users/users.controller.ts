@@ -3,11 +3,8 @@ import {
   Body,
   Controller,
   Delete,
-  Get,
   HttpCode,
-  NotFoundException,
   Param,
-  Patch,
   Post,
   Put,
 } from "@nestjs/common";
@@ -59,9 +56,9 @@ export class UsersController {
     await this.userService.edit(id, editUserDTO);
   }
 
-  @Post(":id/recipes")
+  @Post(":userId/recipes")
   async addRecipe(
-    @Param("id") userId: string,
+    @Param("userId") userId: string,
     @Body() addRecipeDTO: AddRecipeDTO
   ) {
     const recipe = await this.userService.addRecipe(userId, addRecipeDTO);

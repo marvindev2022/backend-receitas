@@ -1,386 +1,232 @@
-# Projeto de Back To Me
+# Plataforma de Compartilhamento de Receitas
 
-Este README tem como objetivo fornecer informações sobre as rotas e queries utilizadas no projeto ***Back To Me***. O projeto visa desenvolver um sistema para auxiliar na busca de animais perdidos e facilitar a adoção de animais disponíveis. Os usuários poderão cadastrar animais perdidos ou disponíveis para adoção, além de buscar animais com base em critérios específicos.
+Este README tem como objetivo fornecer informações sobre a API de compartilhamento de receitas culinárias. A plataforma permite que os usuários cadastrem, busquem, favoritem e comentem receitas.
 
-## Funcionalidades - SWAGGER
+## Documentação da API
 
-<https://app.swaggerhub.com/apis-docs/MAVIROLERO/BackToMe/1.0.0>
+A documentação completa da API pode ser encontrada em [Swagger](https://app.swaggerhub.com/apis-docs/USERNAME/PROJECTNAME/VERSION).
 
-### Informações gerais
+## Visão Geral
 
-**Versão da API**: 1.0.0
-**Título**: Projeto de Animais Perdidos ou Doados
-**Descrição**: API para busca de animais perdidos e adoção de animais disponíveis.
+A API da Plataforma de Compartilhamento de Receitas permite a interação com os seguintes recursos:
 
-### Servidores
+- **Usuários**: Registro, login e obtenção de informações do usuário.
+- **Receitas**: Criação, obtenção, atualização e exclusão de receitas.
+- **Favoritos**: Adicionar e remover receitas dos favoritos.
+- **Comentários**: Adicionar comentários às receitas.
 
-**Servidor local**: <http://localhost:3000>
-**Servidor deploy**: <https://api-backtome.onrender.com/>
+## Requisitos
 
-### Tags
+- **Node.js** (v12 ou superior)
+- Banco de dados **PostgreSQL**
 
-- Usuários
-- Animais Perdidos
-- Animais para Adoção
+## Configuração
 
-### Rotas
+1. Clone o repositório:
 
-- **Cadastrar** novo usuário
-- **Método**: POST
-- **Rota**: /users/registered
-- **Tags**: Usuários
-- **Descrição**: Rota para cadastrar um novo usuário.
 
-``` Exemplo JSON:
+   git clone https://github.com/seu-usuario/seu-projeto.git
+Instale as dependências:
 
+
+```code
+cd seu-projeto
+npm install
+```
+
+Configure as variáveis de ambiente:
+
+Crie um arquivo .env na raiz do projeto e defina as seguintes variáveis:
+
+
+```code
+DATABASE_URL=postgres://seu-usuario:senha@localhost:5432/nome-do-banco
+```
+
+Execute as migrações do banco de dados:
+
+
+```code
+npx prisma migrate dev
+```
+
+Inicie o servidor:
+
+
+```code
+npm start
+```
+
+Uso da API
+
+Acesse a documentação do Swagger para obter detalhes sobre as rotas e parâmetros da API.
+
+Contribuição
+Se desejar contribuir para o projeto, siga as etapas abaixo:
+
+Faça um fork do repositório.
+
+Crie uma branch para a sua feature ou correção:
+
+
+```code
+git checkout -b minha-feature
+```
+
+Faça as alterações desejadas e faça commit:
+
+
+```code
+git commit -m "Minha alteração"
+```
+
+Faça o push para o seu fork:
+
+
+```code
+git push origin minha-feature
+```
+
+Abra um Pull Request no repositório original.
+
+## Insominia
+
+Registrar um novo usuário
+Método: POST
+**Endpoint: /users/signup**
+Corpo:
+
+```code
 {
   "name": "Nome do usuário",
-  "email": "<email@example.com>",
-  "cpf": "12345678900",
-  "phone": "123456789",
-  "password": "senha123",
-  "address": {
-    "cep": "25264253",
-    "complement": "502"
-  }
-}
-Exemplo de tipo:
-{
-  "name": "string",
-  "email": "string",
-  "cpf": "string",
-  "phone": "string",
-  "password": "string",
-  "address": {
-    "cep": "string",
-    "complement": "string"
-  }
+  "email": "email@example.com",
+  "password": "senha123"
 }
 ```
 
-**Respostas**:
+Fazer login
+Método: POST
+**Endpoint: /users/signin**
+Corpo:
 
-**200**: Usuário cadastrado com sucesso!
-**400**: Erro ao cadastrar usuário!
-
-### Login do usuário
-
-- **Método**: POST
-- **Rota**: /users/login
-- **Tags**: Usuários
-- **Descrição**: Rota de login do usuário.
-
-``` Exemplo JSON:
+```code
 {
-  "email": "<email@example.com>",
-  "password": "123456"
-}
-Exemplo de tipo:
-{
-  "email": "string",
-  "password": "string"
+  "email": "email@example.com",
+  "password": "senha123"
 }
 ```
 
-**Respostas**:
+Validar e-mail
+Método: POST
+**Endpoint: /users/validate/email**
+Corpo:
 
-**200**: Usuário logado com sucesso!
-**400**: Erro ao realizar login!
-
-### Editar dados do usuário
-
-- **Método**: PUT
-- **Rota**: /users/{userId}
-- **Tags**: Usuários
-- **Descrição**: Rota para editar dados do usuário.
-- **Parâmetros** de URL:
-- **userId** (integer): ID do usuário
-
-``` Exemplo JSON:
+```code
 {
-  "name": "Nome do usuário",
-  "email": "<email@example.com>",
-  "cpf": "12345678900",
-  "phone": "123456789",
-  "password": "senha123",
-  "address": {
-    "cep": "25264253",
-    "complement": "502"
-  }
-}
-Exemplo de tipo:
-{
-  "name": "string",
-  "email": "string",
-  "cpf": "string",
-  "phone": "string",
-  "password": "string",
-  "address": {
-    "cep": "string",
-    "complement": "string"
-  }
+  "email": "email@example.com"
 }
 ```
 
-**Respostas**:
+Editar usuário
+Método: PUT
+**Endpoint: /users/:id**
+Parâmetros:
+id: ID do usuário a ser editado
+Corpo:
 
-**200**: Dados do usuário atualizados com sucesso!
-**400**: Erro ao atualizar dados do usuário!
-**404**: Usuário não encontrado!
-
-### Buscar animais perdidos
-
-**Método**: GET
-
-**Rota**: /animals/lost
-
-- **Tags**: Animais Perdidos
-- **Descrição**: Rota para buscar animais perdidos.
-- **Parâmetros** de consulta:
-- **status** (string): Status do animal (opcional)
-- **cidade** (string): Nome da cidade onde o animal foi perdido (opcional)
-
-**Respostas**:
-
-**200**: Lista de animais perdidos encontrados com sucesso!
-**400**: Erro ao buscar animais perdidos!
-
-### Buscar animais para adoção
-
-- **Método**: GET
-- **Rota**: /animals/available
-- **Tags**: Animais para Adoção
-- **Descrição**: Rota para buscar animais disponíveis para adoção.
-- **Parâmetros** de consulta:
-- **especie** (string): Espécie do animal (opcional)
-- **porte** (string): Porte do animal (opcional)
-- **idade** (integer): Idade do animal em meses (opcional)
-
-**Respostas**:
-
-**200**: Lista de animais para adoção encontrados com sucesso!
-**400**: Erro ao buscar animais para adoção!
-
-### Cadastrar animal perdido
-
-- **Método**: POST
-- **Rota**: /animals/lost
-- **Tags**: Animais Perdidos
-- **Descrição**: Rota para cadastrar um animal perdido.
-
-``` Exemplo JSON:
+```code
 {
-  "nome": "Nome do animal",
-  "especie": "Espécie do animal",
-  "porte": "Porte do animal",
-  "idade": 12,
-  "cidade": "Cidade onde foi perdido",
-  "descricao": "Descrição do animal perdido"
-}
-Exemplo de tipo:
-{
-  "nome": "string",
-  "especie": "string",
-  "porte": "string",
-  "idade": "integer",
-  "cidade": "string",
-  "descricao": "string"
+  "name": "Novo nome do usuário",
+  "email": "novoemail@example.com",
+  "password": "novasenha123"
 }
 ```
 
-**Respostas**:
+Adicionar uma receita
+Método: POST
+**Endpoint: /users/:id/recipes**
+Parâmetros:
+id: ID do usuário
+Corpo:
 
-**200**: Animal perdido cadastrado com sucesso!
-**400**: Erro ao cadastrar animal perdido!
-
-### Cadastrar animal para adoção
-
-- **Método**: *POST*
-- **Rota**: */animals/available*
-- **Tags**: *Animais para Adoção*
-- **Descrição**: *Rota para cadastrar um animal disponível para adoção.*
-
-``` Exemplo JSON:
+```code
 {
-  "nome": "Nome do animal",
-  "especie": "Espécie do animal",
-  "porte": "Porte do animal",
-  "idade": 24,
-  "descricao": "Descrição do animal para adoção"
-}
-Exemplo de tipo:
-{
-  "nome": "string",
-  "especie": "string",
-  "porte": "string",
-  "idade": "integer",
-  "descricao": "string"
+  "title": "Título da receita",
+  "description": "Descrição da receita",
+  "ingredients": ["Ingrediente 1", "Ingrediente 2"],
+  "steps": ["Passo 1", "Passo 2"]
 }
 ```
 
- **Respostas**:
+Editar uma receita
+Método: PUT
+**Endpoint: /users/:userId/recipes/:recipeId**
+Parâmetros:
+userId: ID do usuário
+recipeId: ID da receita
+Corpo:
 
-**200**: Animal para adoção cadastrado com sucesso!
-**400**: Erro ao cadastrar animal para adoção!
-
-## prisma.schema exemple
-
-``` Exemplo prisma.schema
-generator client {
-  provider = "prisma-client-js"
+```code
+{
+  "title": "Novo título da receita",
+  "description": "Nova descrição da receita",
+  "ingredients": ["Ingrediente 1 atualizado", "Ingrediente 2 atualizado"],
+  "steps": ["Passo 1 atualizado", "Passo 2 atualizado"]
 }
-
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-model User {
-  id        String    @id @default(uuid())
-  name      String
-  email     String    @unique
-  cpf       String
-  phone     String
-  password  String
-  address   Address?
-}
-
-model Address {
-  id          String   @id @default(uuid())
-  cep         String
-  complement  String?
-  userId      String?
-  user        User?    @relation(fields: [userId], references: [id])
-}
-
-model AnimalFound {
-  id                       String    @id @default(uuid())
-  photo                    String
-  local_encontrado         String
-  species                  String
-  race                     String
-  age                      String
-  color                    String
-  size                     String
-  distinctive_characteristics String
-  userId                   String?
-  user                     User?     @relation(fields: [userId], references: [id])
-}
-
-model LostAnimal {
-  id                       String    @id @default(uuid())
-  species                  String
-  race                     String
-  age                      String
-  color                    String
-  size                     String
-  distinctive_characteristics String
-  date_loss                String
-  location_loss            String
-  userId                   String?
-  user                     User?     @relation(fields: [userId], references: [id])
-}
-
-model AvailableAnimal {
-  id                       String    @id @default(uuid())
-  species                  String
-  race                     String
-  age                      String
-  color                    String
-  size                     String
-  distinctive_characteristics String
-  informacoes_personalidade String
-  userId                   String?
-  user                     User?     @relation(fields: [userId], references: [id])
-}
-
 ```
 
-## Tabelas
+Excluir uma receita
+Método: DELETE
+**Endpoint: /users/:userId/recipes/:recipeId**
+Parâmetros:
+userId: ID do usuário
+recipeId: ID da receita
+Adicionar um comentário em uma receita
+Método: POST
+**Endpoint: /users/:userId/recipes**/:recipeId/comments
+Parâmetros:
+userId: ID do usuário
+recipeId: ID da receita
+Corpo:
 
-Tabela User
+```code
+{
+  "text": "Texto do comentário"
+}
+```
 
-| Coluna    | Tipo   | Restrições         |
-|-----------|--------|--------------------|
-| id        | UUID   | Chave primária     |
-| name      | String | -                  |
-| email     | String | Único, não nulo    |
-| cpf       | String | -                  |
-| phone     | String | -                  |
-| password  | String | -                  |
+Editar um comentário em uma receita
+Método: PUT
+**Endpoint: /users/:userId/recipes**/:recipeId/comments/:commentId
+Parâmetros:
+userId: ID do usuário
+recipeId: ID da receita
+commentId: ID do comentário
+Corpo:
 
-Tabela Address
+```code
+{
+  "text": "Novo texto do comentário"
+}
+```
 
-| Coluna       | Tipo   | Restrições         |
-|--------------|--------|--------------------|
-| id           | UUID   | Chave primária     |
-| cep          | String | -                  |
-| complement   | String | -                  |
-| user_id      | UUID   | Chave estrangeira  |
-
-Tabela AnimalFound
-
-| Coluna                     | Tipo   | Restrições         |
-|----------------------------|--------|--------------------|
-| id                         | UUID   | Chave primária     |
-| photo                      | String | -                  |
-| local_encontrado           | String | -                  |
-| species                    | String | -                  |
-| race                       | String | -                  |
-| age                        | String | -                  |
-| color                      | String | -                  |
-| size                       | String | -                  |
-| distinctive_characteristics | String | -                |
-| user_id                    | UUID   | Chave estrangeira  |
-
-Tabela LostAnimal
-
-| Coluna                     | Tipo   | Restrições         |
-|----------------------------|--------|--------------------|
-| id                         | UUID   | Chave primária     |
-| species                    | String | -                  |
-| race                       | String | -                  |
-| age                        | String | -                  |
-| color                      | String | -                  |
-| size                       | String | -                  |
-| distinctive_characteristics | String | -                |
-| date_loss                  | String | -                  |
-| location_loss              | String | -                  |
-| user_id                    | UUID   | Chave estrangeira  |
-
-Tabela AvailableAnimal
-
-| Coluna                     | Tipo   | Restrições         |
-|----------------------------|--------|--------------------|
-| id                         | UUID   | Chave primária     |
-| species                    | String | -                  |
-| race                       | String | -                  |
-| age                        | String | -                  |
-| color                      | String | -                  |
-| size                       | String | -                  |
-| distinctive_characteristics | String | -                |
-| informacoes_personalidade  | String | -                |
-| user_id                    | UUID   | Chave estrangeira  |
-
-## Selos de Resgatadores e Perfis Verificados
-
-A adição de selos de resgatadores e selos de perfil verificado pode ser implementada para fornecer confiança e credibilidade aos usuários do sistema. Aqui estão algumas sugestões de como implementar esses selos:
-
-- Os usuários podem solicitar o selo de resgatador, fornecendo evidências de seu trabalho de resgate de animais.
-- A equipe do sistema revisará as evidências fornecidas e, se aprovadas, concederá o selo de resgatador ao usuário.
-- Os usuários também podem solicitar o selo de perfil verificado, fornecendo documentos de identificação ou outras informações que comprovem sua identidade.
-- A equipe do sistema verificará as informações fornecidas e, se confirmadas, concederá o selo de perfil verificado ao usuário.
-
-**Selo de Resgatador**
-Esse selo pode ser atribuído a usuários que têm um histórico de resgate de animais.
-Os critérios para obter o selo podem incluir o número de animais resgatados, o envolvimento em organizações de resgate de animais ou qualquer outra métrica relevante.
-O selo de resgatador pode ser exibido ao lado do nome do usuário em seu perfil ou em qualquer outra seção do sistema onde o usuário é mencionado.
-
-**Selo de Perfil Verificado**
-Esse selo pode ser usado para indicar que o perfil do usuário foi verificado e está autenticado.
-A verificação pode ser realizada por meio de informações como número de telefone, e-mail verificado ou outra forma de autenticação.
-O selo de perfil verificado pode ser exibido no perfil do usuário, mostrando aos outros usuários que o perfil passou por um processo de verificação.
-
-## Considerações Finais
-
-Este README fornece uma visão geral das rotas, queries e estrutura do banco de dados para o projeto **Back To Me**. Utilize essas informações como referência para desenvolver e testar as funcionalidades do sistema.
+Excluir um comentário em uma receita
+Método: DELETE
+**Endpoint: /users/:userId/recipes**/:recipeId/comments/:commentId
+Parâmetros:
+userId: ID do usuário
+recipeId: ID da receita
+commentId: ID do comentário
+Adicionar uma receita aos favoritos
+Método: POST
+**Endpoint: /users/:userId/recipes**/:recipeId/favorite
+Parâmetros:
+userId: ID do usuário
+recipeId: ID da receita
+Remover uma receita dos favoritos
+Método: DELETE
+**Endpoint: /users/:userId/recipes**/:recipeId/favorite
+Parâmetros:
+userId: ID do usuário
+recipeId: ID da receita
+Lembre-se de substituir :id, :userId, :recipeId e :commentId pelos IDs reais nos endpoints.
