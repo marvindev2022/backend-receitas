@@ -1,0 +1,336 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Plataforma de Compartilhamento de Receitas
+  description: API para compartilhamento de receitas culinárias.
+
+servers:
+  - url: http://localhost:3000
+    description: Servidor local
+
+tags:
+  - name: Usuários
+  - name: Receitas
+  - name: Favoritos
+  - name: Comentários
+
+paths:
+  /users/register:
+    post:
+      tags:
+        - Usuários
+      summary: Registrar um novo usuário
+      description: Rota para registrar um novo usuário na plataforma.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRegister"
+            examples:
+              Example Json:
+                value:
+                  name: "Nome do usuário"
+                  email: "email@example.com"
+                  password: "senha123"
+              Example Type:
+                value:
+                  name: "string"
+                  email: "string"
+                  password: "string"
+      responses:
+        "200":
+          description: Usuário registrado com sucesso!
+        "400":
+          description: Erro ao registrar usuário!
+
+  /users/login:
+    post:
+      tags:
+        - Usuários
+      summary: Fazer login
+      description: Rota para fazer login na plataforma.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserLogin"
+            examples:
+              Example Json:
+                value:
+                  email: "email@example.com"
+                  password: "senha123"
+              Example Type:
+                value:
+                  email: "string"
+                  password: "string"
+      responses:
+        "200":
+          description: Login realizado com sucesso!
+        "400":
+          description: Erro ao fazer login!
+
+  /users/{userId}:
+    get:
+      tags:
+        - Usuários
+      summary: Obter informações do usuário
+      description: Rota para obter informações de um usuário específico.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID do usuário
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Informações do usuário obtidas com sucesso!
+        "404":
+          description: Usuário não encontrado.
+
+  /recipes:
+    get:
+      tags:
+        - Receitas
+      summary: Obter todas as receitas
+      description: Rota para obter todas as receitas cadastradas na plataforma.
+      responses:
+        "200":
+          description: Receitas obtidas com sucesso!
+
+    post:
+      tags:
+        - Receitas
+      summary: Criar uma nova receita
+      description: Rota para criar uma nova receita.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RecipeCreate"
+            examples:
+              Example Json:
+                value:
+                  title: "Título da receita"
+                  description: "Descrição da receita"
+                  ingredients: ["Ingrediente 1", "Ingrediente 2"]
+                  steps: ["Passo 1", "Passo 2"]
+              Example Type:
+                value:
+                  title: "string"
+                  description: "string"
+                  ingredients: ["string"]
+                  steps: ["string"]
+      responses:
+        "200":
+          description: Receita criada com sucesso!
+        "400":
+          description: Erro ao criar receita.
+
+  /recipes/{recipeId}:
+    get:
+      tags:
+        - Receitas
+      summary: Obter uma receita específica
+      description: Rota para obter informações de uma receita específica.
+      parameters:
+        - name: recipeId
+          in: path
+          required: true
+          description: ID da receita
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Informações da receita obtidas com sucesso!
+        "404":
+          description: Receita não encontrada.
+
+    put:
+      tags:
+        - Receitas
+      summary: Atualizar uma receita
+      description: Rota para atualizar uma receita existente.
+      parameters:
+        - name: recipeId
+          in: path
+          required: true
+          description: ID da receita
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RecipeUpdate"
+            examples:
+              Example Json:
+                value:
+                  title: "Novo título da receita"
+                  description: "Nova descrição da receita"
+                  ingredients: ["Ingrediente 1 atualizado", "Ingrediente 2 atualizado"]
+                  steps: ["Passo 1 atualizado", "Passo 2 atualizado"]
+              Example Type:
+                value:
+                  title: "string"
+                  description: "string"
+                  ingredients: ["string"]
+                  steps: ["string"]
+      responses:
+        "200":
+          description: Receita atualizada com sucesso!
+        "400":
+          description: Erro ao atualizar receita.
+        "404":
+          description: Receita não encontrada.
+
+    delete:
+      tags:
+        - Receitas
+      summary: Excluir uma receita
+      description: Rota para excluir uma receita existente.
+      parameters:
+        - name: recipeId
+          in: path
+          required: true
+          description: ID da receita
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Receita excluída com sucesso!
+        "404":
+          description: Receita não encontrada.
+
+  /recipes/{recipeId}/favorites:
+    post:
+      tags:
+        - Favoritos
+      summary: Adicionar receita aos favoritos
+      description: Rota para adicionar uma receita aos favoritos do usuário.
+      parameters:
+        - name: recipeId
+          in: path
+          required: true
+          description: ID da receita
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Receita adicionada aos favoritos com sucesso!
+        "404":
+          description: Receita não encontrada.
+
+    delete:
+      tags:
+        - Favoritos
+      summary: Remover receita dos favoritos
+      description: Rota para remover uma receita dos favoritos do usuário.
+      parameters:
+        - name: recipeId
+          in: path
+          required: true
+          description: ID da receita
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Receita removida dos favoritos com sucesso!
+        "404":
+          description: Receita não encontrada.
+
+  /recipes/{recipeId}/comments:
+    post:
+      tags:
+        - Comentários
+      summary: Adicionar comentário em uma receita
+      description: Rota para adicionar um comentário em uma receita.
+      parameters:
+        - name: recipeId
+          in: path
+          required: true
+          description: ID da receita
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommentCreate"
+            examples:
+              Example Json:
+                value:
+                  text: "Texto do comentário"
+              Example Type:
+                value:
+                  text: "string"
+      responses:
+        "200":
+          description: Comentário adicionado com sucesso!
+        "400":
+          description: Erro ao adicionar comentário.
+        "404":
+          description: Receita não encontrada.
+
+components:
+  schemas:
+    UserRegister:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+
+    UserLogin:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    RecipeCreate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        ingredients:
+          type: array
+          items:
+            type: string
+        steps:
+          type: array
+          items:
+            type: string
+
+    RecipeUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        ingredients:
+          type: array
+          items:
+            type: string
+        steps:
+          type: array
+          items:
+            type: string
+
+    CommentCreate:
+      type: object
+      properties:
+        text:
+          type: string
