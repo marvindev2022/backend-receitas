@@ -9,10 +9,10 @@ import { AddRecipeDTO } from "@infra/http/dtos/Recipe/addRecipe.dto";
 import { AddCommentDTO } from "@infra/http/dtos/Comment/addComment.dto";
 
 @Injectable()
-export class RecipesPrismaRepository {
+export class PrismaRecipesRepository {
   constructor(private prismaService: PrismaService) {}
 
-  async addRecipe(userId: string, recipe: AddRecipeDTO): Promise<void> {
+  async addRecipe(userId: string, recipe: AddRecipeDTO): Promise<any> {
     const user = await this.prismaService.users.findUnique({
       where: { id: userId },
     });
@@ -21,7 +21,7 @@ export class RecipesPrismaRepository {
       throw new NotFoundException("User not found");
     }
 
-    await this.prismaService.recipe.create({
+  const response =   await this.prismaService.recipe.create({
       data: {
         title: recipe.title,
         description: recipe.description,
@@ -30,6 +30,8 @@ export class RecipesPrismaRepository {
         author: { connect: { id: userId } },
       },
     });
+    console.log(response)
+    return response
   }
 
   async editRecipe(
@@ -91,17 +93,15 @@ export class RecipesPrismaRepository {
       description: string;
       ingredients: string[];
       steps: string[];
-      author: string;
     } = {
       id: recipe.id,
       title: recipe.title,
       description: recipe.description,
       ingredients: recipe.ingredients,
       steps: recipe.steps,
-      author: author.id,
     };
 
-    return new Recipe(recipeData);
+    return new Recipe(recipeData,author.id);
   }
 
   async addComment(

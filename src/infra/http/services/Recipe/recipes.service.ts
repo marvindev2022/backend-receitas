@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
@@ -19,7 +18,7 @@ export class RecipeService {
     userId: string,
     request: AddRecipeDTO
   ): Promise<Recipe | Error> {
-    const newRecipe = new Recipe(request);
+    const newRecipe = new Recipe(request,userId);
 
     await this.recipeRepository.addRecipe(userId, newRecipe);
 

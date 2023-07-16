@@ -32,7 +32,7 @@ interface IsValidMethodReturn {
 export class Recipe {
   props: RecipeProps;
 
-  constructor(data: AddRecipeDTO) {
+  constructor(data: AddRecipeDTO, author: string) {
     const newRecipe = this.handle(data);
 
     if (newRecipe.statusCode >= 300) {
@@ -46,6 +46,7 @@ export class Recipe {
       updatedAt: new Date(),
       favorites: [],
       comments: [],
+      author: author,
     };
   }
 

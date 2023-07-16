@@ -4,7 +4,7 @@ import { Recipe } from "./Recipe";
 
 describe("Recipe", () => {
   const makeSut = (props: HttpRequest) => {
-    const newRecipe = new Recipe(props.body);
+    const newRecipe = new Recipe(props.body, props.params);
     return newRecipe;
   };
 

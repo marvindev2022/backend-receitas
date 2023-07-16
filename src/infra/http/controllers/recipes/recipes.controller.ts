@@ -11,7 +11,7 @@ export class RecipesController {
 
   @Post(":userId")
   async addRecipe(
-    @Param("userId") userId: string,
+    @Param("id") userId: string,
     @Body() addRecipeDTO: AddRecipeDTO
   ) {
     const recipe = await this.recipeService.addRecipe(userId, addRecipeDTO);
@@ -21,7 +21,7 @@ export class RecipesController {
 
   @Put(":userId/recipe/:recipeId")
   async editRecipe(
-    @Param("userId") userId: string,
+    @Param("id") userId: string,
     @Param("recipeId") recipeId: string,
     @Body() editRecipeDTO: EditRecipeDTO
   ) {
@@ -30,7 +30,7 @@ export class RecipesController {
 
   @Delete(":userId/recipe/:recipeId")
   async deleteRecipe(
-    @Param("userId") userId: string,
+    @Param("id") userId: string,
     @Param("recipeId") recipeId: string
   ) {
     await this.recipeService.deleteRecipe(userId, recipeId);
@@ -38,7 +38,7 @@ export class RecipesController {
 
   @Post(":userId/recipe/:recipeId/comments")
   async addComment(
-    @Param("userId") userId: string,
+    @Param("id") userId: string,
     @Param("recipeId") recipeId: string,
     @Body() addCommentDTO: AddCommentDTO
   ) {
@@ -53,7 +53,7 @@ export class RecipesController {
 
   @Put(":userId/recipe/:recipeId/comments/:commentId")
   async editComment(
-    @Param("userId") userId: string,
+    @Param("id") userId: string,
     @Param("recipeId") recipeId: string,
     @Param("commentId") commentId: string,
     @Body() editCommentDTO: EditCommentDTO
@@ -68,7 +68,7 @@ export class RecipesController {
 
   @Delete(":userId/recipe/:recipeId/comments/:commentId")
   async deleteComment(
-    @Param("userId") userId: string,
+    @Param("id") userId: string,
     @Param("recipeId") recipeId: string,
     @Param("commentId") commentId: string
   ) {
@@ -77,7 +77,7 @@ export class RecipesController {
 
   // @Post(":userId/recipe/:recipeId/favorite")
   // async favoriteRecipe(
-  //   @Param("userId") userId: string,
+  //   @Param("id") userId: string,
   //   @Param("recipeId") recipeId: string
   // ) {
   //   await this.recipeService.favoriteRecipe(userId, recipeId);
@@ -85,7 +85,7 @@ export class RecipesController {
 
   // @Delete(":userId/recipe/:recipeId/favorite")
   // async unfavoriteRecipe(
-  //   @Param("userId") userId: string,
+  //   @Param("id") userId: string,
   //   @Param("recipeId") recipeId: string
   // ) {
   //   await this.recipeService.unfavoriteRecipe(userId, recipeId);

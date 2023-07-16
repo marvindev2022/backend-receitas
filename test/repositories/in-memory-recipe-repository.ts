@@ -1,6 +1,6 @@
 import { RecipeRepository } from "@app/repositories/Recipe/recipe";
-import { Recipe } from "@domainRecipe/Recipe";
-import { Comment } from "@domainComment/Comments";
+import { Recipe } from "@domain/Recipe/Recipe";
+import { Comment } from "@domain/Comment/Comments";
 import { NotFoundException } from "@nestjs/common";
 
 export class InMemoryRecipeRepository implements RecipeRepository {
@@ -15,20 +15,28 @@ export class InMemoryRecipeRepository implements RecipeRepository {
   }
 
   async editRecipe(
-    recipe: Recipe,
+    recipeId: string,
     updatedRecipe: Partial<Recipe>
   ): Promise<void> {
+    const recipe = await this.findRecipeById(recipeId);
+    if (!recipe) {
+      throw new NotFoundException("Recipe not found");
+    }
     Object.assign(recipe, updatedRecipe);
   }
 
-  async deleteRecipe(recipe: Recipe): Promise<void> {
-    const index = this.recipes.findIndex((r) => r.id === recipe.id);
+  async deleteRecipe(recipeId: string): Promise<void> {
+    const index = this.recipes.findIndex((recipe) => recipe.id === recipeId);
     if (index !== -1) {
       this.recipes.splice(index, 1);
     }
   }
 
-  async addComment(recipe: Recipe, comment: Comment): Promise<void> {
+  async addComment(recipeId: string, comment: Comment): Promise<void> {
+    const recipe = await this.findRecipeById(recipeId);
+    if (!recipe) {
+      throw new NotFoundException("Recipe not found");
+    }
     recipe.comments.push(comment);
   }
 
@@ -43,15 +51,19 @@ export class InMemoryRecipeRepository implements RecipeRepository {
   }
 
   async editComment(
-    comment: Comment,
+    commentId: string,
     updatedComment: Partial<Comment>
   ): Promise<void> {
+    const comment = await this.findCommentById(commentId);
+    if (!comment) {
+      throw new NotFoundException("Comment not found");
+    }
     Object.assign(comment, updatedComment);
   }
 
-  async deleteComment(comment: Comment): Promise<void> {
+  async deleteComment(commentId: string): Promise<void> {
     for (const recipe of this.recipes) {
-      const index = recipe.comments.findIndex((c) => c.id === comment.id);
+      const index = recipe.comments.findIndex((c) => c.id === commentId);
       if (index !== -1) {
         recipe.comments.splice(index, 1);
         break;
