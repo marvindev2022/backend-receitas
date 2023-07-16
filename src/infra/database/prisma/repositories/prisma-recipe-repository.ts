@@ -12,26 +12,24 @@ import { AddCommentDTO } from "@infra/http/dtos/Comment/addComment.dto";
 export class PrismaRecipesRepository {
   constructor(private prismaService: PrismaService) {}
 
-  async addRecipe(userId: string, recipe: AddRecipeDTO): Promise<any> {
+  async addRecipe(id: string, recipe: AddRecipeDTO): Promise<any> {
     const user = await this.prismaService.users.findUnique({
-      where: { id: userId },
+      where: { id },
     });
 
     if (!user) {
       throw new NotFoundException("User not found");
     }
-
-  const response =   await this.prismaService.recipe.create({
-      data: {
-        title: recipe.title,
-        description: recipe.description,
-        ingredients: recipe.ingredients,
-        steps: recipe.steps,
-        author: { connect: { id: userId } },
-      },
-    });
-    console.log(response)
-    return response
+    if (id)
+      await this.prismaService.recipe.create({
+        data: {
+          title: recipe.title,
+          description: recipe.description,
+          ingredients: recipe.ingredients,
+          steps: recipe.steps,
+          author: { connect: { id } },
+        },
+      });
   }
 
   async editRecipe(
@@ -94,14 +92,14 @@ export class PrismaRecipesRepository {
       ingredients: string[];
       steps: string[];
     } = {
-      id: recipe.id,
+      id: String(recipe.id),
       title: recipe.title,
       description: recipe.description,
       ingredients: recipe.ingredients,
       steps: recipe.steps,
     };
 
-    return new Recipe(recipeData,author.id);
+    return new Recipe(recipeData, author.id);
   }
 
   async addComment(
@@ -129,7 +127,7 @@ export class PrismaRecipesRepository {
       data: {
         text: comment.props.text,
         user: { connect: { id: user.id } },
-        recipe: { connect: { id: recipe.id } },
+        recipe: { connect: { id: String(recipe.id) } },
       },
     });
   }
@@ -202,7 +200,7 @@ export class PrismaRecipesRepository {
     }
 
     const recipe = await this.prismaService.recipe.findUnique({
-      where: { id: comment.recipeId },
+      where: { id: String(comment.recipeId) },
     });
 
     if (!recipe) {

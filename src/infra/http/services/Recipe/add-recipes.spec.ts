@@ -17,12 +17,12 @@ describe("RecipeService", () => {
     };
 
     const result = await recipeService.addRecipe(userId, recipeData);
+    
+
     expect(result).toBeInstanceOf(Recipe);
-    expect(result.title).toBe(recipeData.title);
-    expect(result.description).toBe(recipeData.description);
-    expect(result.ingredients).toEqual(recipeData.ingredients);
-    expect(result.steps).toEqual(recipeData.steps);
+    expect(result).toBe(recipeData.title);
+    expect(result).toBe(recipeData.description);
+    expect(result).toEqual(recipeData.ingredients);
+    expect(result).toEqual(recipeData.steps);
   });
 });
-
-

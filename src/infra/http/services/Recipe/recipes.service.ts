@@ -1,10 +1,7 @@
-import {
-  Injectable,
-  NotFoundException,
-} from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { RecipeRepository } from "@app/repositories/Recipe/recipe";
-import { Recipe } from "@domainRecipe/Recipe";
-import { Comment } from "@domainComment/Comments";
+import { Recipe } from "@domain/Recipe/Recipe";
+import { Comment } from "@domain/Comment/Comments";
 import { AddRecipeDTO } from "@infra/http/dtos/Recipe/addRecipe.dto";
 import { EditRecipeDTO } from "@infra/http/dtos/Recipe/editRecipe.dto";
 import { AddCommentDTO } from "@infra/http/dtos/Comment/addComment.dto";
@@ -18,9 +15,9 @@ export class RecipeService {
     userId: string,
     request: AddRecipeDTO
   ): Promise<Recipe | Error> {
-    const newRecipe = new Recipe(request,userId);
+    const newRecipe = new Recipe(request, userId);
 
-    await this.recipeRepository.addRecipe(userId, newRecipe);
+    await this.recipeRepository.addRecipe(userId,newRecipe);
 
     return newRecipe;
   }
@@ -35,7 +32,7 @@ export class RecipeService {
       throw new NotFoundException("Receita não encontrada");
     }
 
-    await this.recipeRepository.editRecipe(userId, recipeId, request);
+    await this.recipeRepository.editRecipe(userId,recipeId, request);
   }
 
   async deleteRecipe(userId: string, recipeId: string): Promise<void | Error> {
@@ -44,7 +41,7 @@ export class RecipeService {
       throw new NotFoundException("Receita não encontrada");
     }
 
-    await this.recipeRepository.deleteRecipe(userId, recipeId);
+    await this.recipeRepository.deleteRecipe(userId,recipeId);
   }
 
   async addComment(
@@ -63,7 +60,7 @@ export class RecipeService {
       recipe: recipeId,
     };
 
-    await this.recipeRepository.addComment(userId, recipeId, newCommentData);
+    await this.recipeRepository.addComment(userId,recipeId, newCommentData);
 
     const newComment = new Comment(newCommentData);
 
@@ -81,12 +78,7 @@ export class RecipeService {
       throw new NotFoundException("Comentário não encontrado");
     }
 
-    await this.recipeRepository.editComment(
-      userId,
-      recipeId,
-      commentId,
-      request
-    );
+    await this.recipeRepository.editComment(commentId,userId,recipeId, request);
   }
 
   async deleteComment(
@@ -99,14 +91,13 @@ export class RecipeService {
       throw new NotFoundException("Comentário não encontrado");
     }
 
-    await this.recipeRepository.deleteComment(userId, recipeId, commentId);
+    await this.recipeRepository.deleteComment(commentId,userId,recipeId);
   }
 
   // async favoriteRecipe(
   //   userId: string,
   //   recipeId: string
   // ): Promise<void | Error> {
-
   //   const recipe = await this.recipeRepository.findRecipeById(recipeId);
   //   if (!recipe) {
   //     throw new NotFoundException("Receita não encontrada");
@@ -114,7 +105,7 @@ export class RecipeService {
 
   //   if (!this.recipeRepository.favoriteRecipe) {
   //     throw new Error(
-  //       "A propriedade 'favoriteRecipe' não existe no tipo 'UserRepository'."
+  //       "A propriedade 'favoriteRecipe' não existe no tipo 'RecipeRepository'."
   //     );
   //   }
 
@@ -125,7 +116,6 @@ export class RecipeService {
   //   userId: string,
   //   recipeId: string
   // ): Promise<void | Error> {
-
   //   const recipe = await this.recipeRepository.findRecipeById(recipeId);
   //   if (!recipe) {
   //     throw new NotFoundException("Receita não encontrada");
@@ -133,7 +123,7 @@ export class RecipeService {
 
   //   if (!this.recipeRepository.unfavoriteRecipe) {
   //     throw new Error(
-  //       "A propriedade 'unfavoriteRecipe' não existe no tipo 'UserRepository'."
+  //       "A propriedade 'unfavoriteRecipe' não existe no tipo 'RecipeRepository'."
   //     );
   //   }
 

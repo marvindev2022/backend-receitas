@@ -31,6 +31,7 @@ interface IsValidMethodReturn {
 
 export class Recipe {
   props: RecipeProps;
+  comments: any;
 
   constructor(data: AddRecipeDTO, author: string) {
     const newRecipe = this.handle(data);
