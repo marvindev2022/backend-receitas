@@ -63,7 +63,6 @@ export class inMemoryUserRepository implements UserRepository {
     return user;
   }
 
-  
   async findByEmail(email: string): Promise<FindedUserDTO | NotFoundException> {
     const userIndex = this.users.findIndex(
       (user) => user.props.email === email

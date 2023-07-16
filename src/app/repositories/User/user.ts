@@ -1,4 +1,3 @@
-import { Recipe } from "@domain/Recipe/Recipe";
 import { User } from "@domain/User/User";
 import { EditUserDTO } from "@infra/http/dtos/User/editUser.dto";
 import { FindedUserDTO } from "@infra/http/dtos/User/findedUser.dto";
@@ -17,8 +16,4 @@ export abstract class UserRepository {
   abstract findByEmail(
     email: string
   ): Promise<FindedUserDTO | NotFoundException>;
-
-  abstract favoriteRecipe(user: User, recipe: Recipe): Promise<void | Error>;
-
-  abstract unfavoriteRecipe(user: User, recipe: Recipe): Promise<void | Error>;
 }

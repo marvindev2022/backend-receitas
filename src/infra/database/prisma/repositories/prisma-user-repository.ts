@@ -11,12 +11,12 @@ import { UserLoginDTO } from "@infra/http/dtos/User/login.dto";
 import { compareToEncrypted } from "@app/protocols/crypto/compare/compareToEncrypted";
 import { EditUserDTO } from "@infra/http/dtos/User/editUser.dto";
 import { FindedUserDTO } from "@infra/http/dtos/User/findedUser.dto";
-import { Recipe } from "@domain/Recipe/Recipe";
+import { Recipe } from "@domainRecipe/Recipe";
 
 @Injectable()
 export class PrismaUserRepository implements UserRepository {
   constructor(private prismaService: PrismaService) {}
-  
+
   async register(user: User): Promise<string> {
     if (user instanceof Error) {
       throw new BadRequestException(user.message, {
@@ -107,15 +107,15 @@ export class PrismaUserRepository implements UserRepository {
     const userModel = this.prismaService.users;
 
     const isFavorite = user.props.favoriteRecipes?.some(
-      (favRecipe) => favRecipe === recipe.id
+      (favRecipe) => favRecipe === recipe.props.id
     );
     if (isFavorite) return;
-
-    user.props.favoriteRecipes?.push(recipe.id);
+    if (!recipe.props.id) return;
+    user.props.favoriteRecipes?.push(recipe.props.id);
 
     await userModel.update({
       where: { email: user.props.email },
-      data: { recipes: { connect: { id: Number(recipe.id) } } },
+      data: { recipes: { connect: { id: recipe.props.id } } },
     });
   }
 
@@ -123,13 +123,12 @@ export class PrismaUserRepository implements UserRepository {
     const userModel = this.prismaService.users;
 
     user.props.favoriteRecipes = user.props.favoriteRecipes?.filter(
-      (favRecipe) => favRecipe !== recipe.id
+      (favRecipe) => favRecipe !== recipe.props.id
     );
 
     await userModel.update({
       where: { email: user.props.email },
-      data: { recipes: { disconnect: { id: Number(recipe.id) } } },
+      data: { recipes: { disconnect: { id: recipe.props.id } } },
     });
   }
-  
 }

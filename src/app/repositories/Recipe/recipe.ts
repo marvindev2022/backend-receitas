@@ -1,89 +1,50 @@
 import { Injectable } from "@nestjs/common";
-import { Recipe } from "@domain/Recipe/Recipe";
-import { Comment } from "@domain/Comment/Comments";
+import { Recipe } from "@domainRecipe/Recipe";
+import { Comment } from "@domainComment/Comments";
 import { EditCommentDTO } from "@infra/http/dtos/Comment/editComment.dto";
 import { EditRecipeDTO } from "@infra/http/dtos/Recipe/editRecipe.dto";
+import { AddCommentDTO } from "@infra/http/dtos/Comment/addComment.dto";
 
 @Injectable()
-export class RecipeRepository {
-  private recipes: Recipe[] = [];
-  private comments: Comment[] = [];
-  users: any;
+export abstract class RecipeRepository {
+  protected recipes: Recipe[] = [];
+  protected comments: Comment[] = [];
+  protected users: any;
 
-  async addRecipe(userId: string, recipe: Recipe): Promise<void> {
-    const user = this.users.find((u) => u.id === userId);
-    if (user) {
-      recipe.author = user;
-      this.recipes.push(recipe);
-    }
-  }
+  abstract addRecipe(userId: string, recipe: Recipe): Promise<void>;
 
-  async editRecipe(
+  abstract editRecipe(
     userId: string,
     recipeId: string,
     newData: EditRecipeDTO
-  ): Promise<void> {
-    const recipe = this.recipes.find((r) => r.id === recipeId);
-    if (recipe && recipe.author.props.id === userId) {
-      Object.assign(recipe, newData);
-    }
-  }
+  ): Promise<void>;
 
-  async deleteRecipe(userId: string, recipeId: string): Promise<void> {
-    const index = this.recipes.findIndex((r) => r.id === recipeId);
-    if (index !== -1 && this.recipes[index].author.props.id === userId) {
-      this.recipes.splice(index, 1);
-    }
-  }
+  abstract deleteRecipe(userId: string, recipeId: string): Promise<void>;
 
-  async findRecipeById(recipeId: string): Promise<Recipe | undefined> {
-    return this.recipes.find((recipe) => recipe.id === recipeId);
-  }
+  abstract findRecipeById(recipeId: string): Promise<Recipe | undefined>;
 
-  async addComment(
+  abstract addComment(
     userId: string,
     recipeId: string,
-    comment: Comment
-  ): Promise<void> {
-    const recipe = this.recipes.find((r) => r.id === recipeId);
-    if (recipe) {
-      this.comments.push(comment);
-      recipe.comments.push(comment);
-    }
-  }
+    comment: AddCommentDTO
+  ): Promise<void>;
 
-  async editComment(
+  abstract editComment(
     userId: string,
-    recipeId:string,
+    recipeId: string,
     commentId: string,
     newData: EditCommentDTO
-  ): Promise<void> {
-    const comment = this.comments.find((c) => c.id === commentId && c.recipe.id === recipeId);
-    if (comment && comment.user.props.id === userId) {
-      Object.assign(comment, newData);
-    }
-  }
+  ): Promise<void>;
 
-  async deleteComment(userId: string, recipeId:string,commentId: string): Promise<void> {
-    const index = this.comments.findIndex((c) => c.id === commentId && c.recipe.id === recipeId);
-    if (index !== -1 && this.comments[index].user.props.id === userId) {
-      this.comments.splice(index, 1);
-    }
-    const recipe = this.recipes.find((recipe) =>
-      recipe.comments.some((c) => c.id === commentId)
-    );
-    if (recipe) {
-      const commentIndex = recipe.comments.findIndex((c) => c.id === commentId);
-      if (
-        commentIndex !== -1 &&
-        recipe.comments[commentIndex].user.props.id === userId
-      ) {
-        recipe.comments.splice(commentIndex, 1);
-      }
-    }
-  }
+  abstract deleteComment(
+    userId: string,
+    recipeId: string,
+    commentId: string
+  ): Promise<void>;
 
-  async findCommentById(commentId: string): Promise<Comment | undefined> {
-    return this.comments.find((comment) => comment.id === commentId);
-  }
+  abstract findCommentById(commentId: string): Promise<Comment | undefined>;
+
+  // abstract favoriteRecipe(userId:string, recipe: Recipe): Promise<void | Error>;
+
+  // abstract unfavoriteRecipe(userId:string, recipe: Recipe): Promise<void | Error>;
 }

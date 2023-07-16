@@ -1,45 +1,8 @@
 import { AddRecipeDTO } from "@infra/http/dtos/Recipe/addRecipe.dto";
-import { User } from "../User/User";
-import { Comment } from "./../Comment/Comments";
-import { Favorite } from "@domain/Favorite/Favorite";
-
-export class Recipe {
-  id: string;
-  title: string;
-  description: string;
-  ingredients: string[];
-  steps: string[];
-  author: User;
-  createdAt: Date;
-  updatedAt: Date;
-  favorites: Favorite[];
-  comments: Comment[];
-
-  constructor(data: AddRecipeDTO) {
-    this.id = generateRecipeId();
-    this.title = data.title;
-    this.description = data.description;
-    this.ingredients = data.ingredients;
-    this.steps = data.steps;
-    this.author = data.author;
-    this.createdAt = new Date();
-    this.updatedAt = new Date();
-    this.favorites = [];
-    this.comments = [];
-  }
-}
-
-function generateRecipeId(): string {
-  return `${Number(new Date())}`;
-}
-
-/*import { AddRecipeDTO } from "@infra/http/dtos/Recipe/addRecipe.dto";
-import { User } from "../User/User";
-import { Comment } from "./../Comment/Comments";
-import { Favorite } from "@domain/Favorite/Favorite";
+import { Comment } from "../Comment/Comments";
+import { Favorite } from "../Favorite/Favorite";
 import { InvalidParamError } from "@app/errors/InvalidParamError";
 import { MissingParamError } from "@app/errors/MissingParamError";
-import { makeHash } from "@app/protocols/crypto/hash/makeHash";
 import { z } from "zod";
 
 export interface RecipeProps {
@@ -48,7 +11,7 @@ export interface RecipeProps {
   description: string;
   ingredients: string[];
   steps: string[];
-  author: User;
+  author?: string;
   createdAt?: Date;
   updatedAt?: Date;
   favorites?: Favorite[];
@@ -108,11 +71,11 @@ export class Recipe {
       description: z.string().min(6, { message: "Invalid" }),
       ingredients: z.array(z.string()),
       steps: z.array(z.string()),
-      author: z.instanceof(User),
+      
     });
 
     const recipeIsValid = recipeSchema.safeParse(data);
-    
+
     if (!recipeIsValid.success) {
       const errorPath = recipeIsValid.error.errors[0].path[0].toString();
       const errorMessage = recipeIsValid.error.errors[0].message;
@@ -156,4 +119,3 @@ export class Recipe {
 function generateRecipeId(): string {
   return `${Number(new Date())}`;
 }
-*/

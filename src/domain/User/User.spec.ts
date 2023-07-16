@@ -48,6 +48,7 @@ describe("User", () => {
         name: "any_name",
         email: "any_email@mail.com",
         password: "any_password",
+        favoriteRecipes : ["any_favorites"]
       },
     };
     const newUser = makeSut(httpRequest);

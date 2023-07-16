@@ -23,7 +23,7 @@
     "paths": {
       "@infra/*": ["./src/infra/*"],
       "@app/*": ["./src/app/*"],
-      "@domain/*": ["./src/domain/*"],
+      "@domain*": ["src/domain/*"],
       "@test/*": ["./test/*"]
     }
   }

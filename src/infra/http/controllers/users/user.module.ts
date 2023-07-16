@@ -15,7 +15,7 @@ import { RecipeRepository } from "@app/repositories/Recipe/recipe";
 @Module({
   imports: [UsersDatabaseModule],
   controllers: [UsersController],
-  providers: [UserService,  PrismaService, RecipeRepository],
+  providers: [UserService,  PrismaService],
 })
 export class UsersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

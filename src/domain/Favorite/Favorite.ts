@@ -1,5 +1,5 @@
-import { User } from "./../User/User";
-import { Recipe } from "./../Recipe/Recipe";
+import { User } from "../User/User";
+import { Recipe } from "../Recipe/Recipe";
 
 export class Favorite {
   private user: User;

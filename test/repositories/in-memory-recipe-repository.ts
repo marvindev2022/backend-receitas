@@ -1,6 +1,6 @@
 import { RecipeRepository } from "@app/repositories/Recipe/recipe";
-import { Recipe } from "@domain/Recipe/Recipe";
-import { Comment } from "@domain/Comment/Comments";
+import { Recipe } from "@domainRecipe/Recipe";
+import { Comment } from "@domainComment/Comments";
 import { NotFoundException } from "@nestjs/common";
 
 export class InMemoryRecipeRepository implements RecipeRepository {
