@@ -12,25 +12,26 @@ import { AddCommentDTO } from "@infra/http/dtos/Comment/addComment.dto";
 export class PrismaRecipesRepository {
   constructor(private prismaService: PrismaService) {}
 
-  async addRecipe(id: string, recipe: AddRecipeDTO): Promise<any> {
+  async addRecipe(id: string, recipe: Recipe): Promise<any> {
     const user = await this.prismaService.users.findUnique({
       where: { id },
     });
-
+  
     if (!user) {
       throw new NotFoundException("User not found");
     }
-    if (id)
-      await this.prismaService.recipe.create({
-        data: {
-          title: recipe.title,
-          description: recipe.description,
-          ingredients: recipe.ingredients,
-          steps: recipe.steps,
-          author: { connect: { id } },
-        },
-      });
+  
+    await this.prismaService.recipe.create({
+      data: {
+        title: recipe.props.title,
+        description: recipe.props.description,
+        ingredients: recipe.props.ingredients,
+        steps: recipe.props.steps,
+        author: { connect: { id } },
+      },
+    });
   }
+  
 
   async editRecipe(
     userId: string,

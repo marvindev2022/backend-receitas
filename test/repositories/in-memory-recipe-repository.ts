@@ -9,7 +9,8 @@ import { EditCommentDTO } from "@infra/http/dtos/Comment/editComment.dto";
 export class InMemoryRecipeRepository extends RecipeRepository {
   public recipes: Recipe[] = [];
   async addRecipe(userId: string, recipe: Recipe): Promise<void> {
-    this.recipes.push(recipe);
+    const newRecipe = new Recipe(recipe, userId);
+    this.recipes.push(newRecipe);
   }
 
   async findRecipeById(recipeId: string): Promise<Recipe | undefined> {
