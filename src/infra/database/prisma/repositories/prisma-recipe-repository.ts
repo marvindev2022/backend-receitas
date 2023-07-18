@@ -34,7 +34,6 @@ export class PrismaRecipesRepository {
       throw new BadRequestException("Ocorreu um erro ao adicionar a receita.");
     }
   }
-  
 
   async editRecipe(
     userId: string,

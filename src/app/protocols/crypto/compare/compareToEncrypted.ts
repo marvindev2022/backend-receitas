@@ -1,4 +1,4 @@
-import { compareSync } from 'bcrypt';
+import { compareSync } from "bcrypt";
 
 interface CompareToEncryptedProps {
   receivedString: string;

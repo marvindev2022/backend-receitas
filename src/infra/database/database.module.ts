@@ -3,6 +3,6 @@ import { UsersDatabaseModule } from "./prisma/repositories/prisma-user-database.
 import { RecipesDatabaseModule } from "./prisma/repositories/prisma-recipe-database.module";
 
 @Module({
-  imports: [UsersDatabaseModule,RecipesDatabaseModule],
+  imports: [UsersDatabaseModule, RecipesDatabaseModule],
 })
 export class DatabaseModule {}

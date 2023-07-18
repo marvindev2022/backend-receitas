@@ -58,9 +58,6 @@ export class RecipeService {
       user: userId,
       recipe: recipeId,
     };
-    console.log(newCommentData)
-    const comment = await this.recipeRepository.addComment(userId, recipeId, newCommentData);
-    console.log(comment)
     const newComment = new Comment(newCommentData);
 
     return newComment;

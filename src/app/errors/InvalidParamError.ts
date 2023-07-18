@@ -1,4 +1,4 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException } from "@nestjs/common";
 
 export class InvalidParamError extends BadRequestException {
   constructor(param: string) {
