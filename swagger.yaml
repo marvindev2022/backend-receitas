@@ -5,20 +5,20 @@ info:
   description: API para compartilhamento de receitas culinárias.
 
 servers:
-  - url: http://localhost:3000
-    description: Servidor local
+- url: http://localhost:3000
+  description: Servidor local
 
 tags:
-  - name: Usuários
-  - name: Receitas
-  - name: Favoritos
-  - name: Comentários
+- name: Usuários
+- name: Receitas
+- name: Favoritos
+- name: Comentários
 
 paths:
   /users/register:
     post:
       tags:
-        - Usuários
+      - Usuários
       summary: Registrar um novo usuário
       description: Rota para registrar um novo usuário na plataforma.
       requestBody:
@@ -47,7 +47,7 @@ paths:
   /users/login:
     post:
       tags:
-        - Usuários
+      - Usuários
       summary: Fazer login
       description: Rota para fazer login na plataforma.
       requestBody:
@@ -74,16 +74,16 @@ paths:
   /users/{userId}:
     get:
       tags:
-        - Usuários
+      - Usuários
       summary: Obter informações do usuário
       description: Rota para obter informações de um usuário específico.
       parameters:
-        - name: userId
-          in: path
-          required: true
-          description: ID do usuário
-          schema:
-            type: string
+      - name: userId
+        in: path
+        required: true
+        description: ID do usuário
+        schema:
+          type: string
       responses:
         "200":
           description: Informações do usuário obtidas com sucesso!
@@ -93,7 +93,7 @@ paths:
   /recipes:
     get:
       tags:
-        - Receitas
+      - Receitas
       summary: Obter todas as receitas
       description: Rota para obter todas as receitas cadastradas na plataforma.
       responses:
@@ -102,7 +102,7 @@ paths:
 
     post:
       tags:
-        - Receitas
+      - Receitas
       summary: Criar uma nova receita
       description: Rota para criar uma nova receita.
       requestBody:
@@ -133,16 +133,16 @@ paths:
   /recipes/{recipeId}:
     get:
       tags:
-        - Receitas
+      - Receitas
       summary: Obter uma receita específica
       description: Rota para obter informações de uma receita específica.
       parameters:
-        - name: recipeId
-          in: path
-          required: true
-          description: ID da receita
-          schema:
-            type: integer
+      - name: recipeId
+        in: path
+        required: true
+        description: ID da receita
+        schema:
+          type: integer
       responses:
         "200":
           description: Informações da receita obtidas com sucesso!
@@ -151,16 +151,16 @@ paths:
 
     put:
       tags:
-        - Receitas
+      - Receitas
       summary: Atualizar uma receita
       description: Rota para atualizar uma receita existente.
       parameters:
-        - name: recipeId
-          in: path
-          required: true
-          description: ID da receita
-          schema:
-            type: integer
+      - name: recipeId
+        in: path
+        required: true
+        description: ID da receita
+        schema:
+          type: integer
       requestBody:
         required: true
         content:
@@ -190,16 +190,16 @@ paths:
 
     delete:
       tags:
-        - Receitas
+      - Receitas
       summary: Excluir uma receita
       description: Rota para excluir uma receita existente.
       parameters:
-        - name: recipeId
-          in: path
-          required: true
-          description: ID da receita
-          schema:
-            type: integer
+      - name: recipeId
+        in: path
+        required: true
+        description: ID da receita
+        schema:
+          type: integer
       responses:
         "200":
           description: Receita excluída com sucesso!
@@ -209,16 +209,16 @@ paths:
   /recipes/{recipeId}/favorites:
     post:
       tags:
-        - Favoritos
+      - Favoritos
       summary: Adicionar receita aos favoritos
       description: Rota para adicionar uma receita aos favoritos do usuário.
       parameters:
-        - name: recipeId
-          in: path
-          required: true
-          description: ID da receita
-          schema:
-            type: integer
+      - name: recipeId
+        in: path
+        required: true
+        description: ID da receita
+        schema:
+          type: integer
       responses:
         "200":
           description: Receita adicionada aos favoritos com sucesso!
@@ -227,16 +227,16 @@ paths:
 
     delete:
       tags:
-        - Favoritos
+      - Favoritos
       summary: Remover receita dos favoritos
       description: Rota para remover uma receita dos favoritos do usuário.
       parameters:
-        - name: recipeId
-          in: path
-          required: true
-          description: ID da receita
-          schema:
-            type: integer
+      - name: recipeId
+        in: path
+        required: true
+        description: ID da receita
+        schema:
+          type: integer
       responses:
         "200":
           description: Receita removida dos favoritos com sucesso!
@@ -246,16 +246,16 @@ paths:
   /recipes/{recipeId}/comments:
     post:
       tags:
-        - Comentários
+      - Comentários
       summary: Adicionar comentário em uma receita
       description: Rota para adicionar um comentário em uma receita.
       parameters:
-        - name: recipeId
-          in: path
-          required: true
-          description: ID da receita
-          schema:
-            type: integer
+      - name: recipeId
+        in: path
+        required: true
+        description: ID da receita
+        schema:
+          type: integer
       requestBody:
         required: true
         content:

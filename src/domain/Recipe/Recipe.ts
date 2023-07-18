@@ -42,12 +42,11 @@ export class Recipe {
 
     this.props = {
       ...newRecipe.body,
-      id: generateRecipeId(),
+      author: author,
       createdAt: new Date(),
       updatedAt: new Date(),
       favorites: [],
       comments: [],
-      author: author,
     };
   }
 
@@ -73,7 +72,6 @@ export class Recipe {
       description: z.string().min(6, { message: "Invalid" }),
       ingredients: z.array(z.string()),
       steps: z.array(z.string()),
-      
     });
 
     const recipeIsValid = recipeSchema.safeParse(data);
@@ -118,6 +116,3 @@ export class Recipe {
   }
 }
 
-function generateRecipeId(): string {
-  return `${Number(new Date())}`;
-}

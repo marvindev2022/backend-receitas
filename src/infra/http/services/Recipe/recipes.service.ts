@@ -17,7 +17,7 @@ export class RecipeService {
   ): Promise<Recipe | Error> {
     const newRecipe = new Recipe(request, userId);
 
-    await this.recipeRepository.addRecipe(userId,newRecipe);
+    await this.recipeRepository.addRecipe(userId, newRecipe);
 
     return newRecipe;
   }
@@ -32,7 +32,7 @@ export class RecipeService {
       throw new NotFoundException("Receita não encontrada");
     }
 
-    await this.recipeRepository.editRecipe(userId,recipeId, request);
+    await this.recipeRepository.editRecipe(userId, recipeId, request);
   }
 
   async deleteRecipe(userId: string, recipeId: string): Promise<void | Error> {
@@ -41,7 +41,7 @@ export class RecipeService {
       throw new NotFoundException("Receita não encontrada");
     }
 
-    await this.recipeRepository.deleteRecipe(userId,recipeId);
+    await this.recipeRepository.deleteRecipe(userId, recipeId);
   }
 
   async addComment(
@@ -51,17 +51,16 @@ export class RecipeService {
   ): Promise<Comment | Error> {
     const recipe = await this.recipeRepository.findRecipeById(recipeId);
     if (!recipe) {
-      throw new NotFoundException("Receita não encontrada");
+      throw new NotFoundException("Receita não encontrada!");
     }
-
     const newCommentData: AddCommentDTO = {
       text: request.text,
       user: userId,
       recipe: recipeId,
     };
-
-    await this.recipeRepository.addComment(userId,recipeId, newCommentData);
-
+    console.log(newCommentData)
+    const comment = await this.recipeRepository.addComment(userId, recipeId, newCommentData);
+    console.log(comment)
     const newComment = new Comment(newCommentData);
 
     return newComment;
@@ -78,7 +77,12 @@ export class RecipeService {
       throw new NotFoundException("Comentário não encontrado");
     }
 
-    await this.recipeRepository.editComment(commentId,userId,recipeId, request);
+    await this.recipeRepository.editComment(
+      commentId,
+      userId,
+      recipeId,
+      request
+    );
   }
 
   async deleteComment(
@@ -91,7 +95,7 @@ export class RecipeService {
       throw new NotFoundException("Comentário não encontrado");
     }
 
-    await this.recipeRepository.deleteComment(commentId,userId,recipeId);
+    await this.recipeRepository.deleteComment(commentId, userId, recipeId);
   }
 
   // async favoriteRecipe(

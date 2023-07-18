@@ -15,11 +15,10 @@ model Users {
   recipes   Recipe[]
   favorites Favorite[] @relation("UserFavorites")
   comments  Comment[]  @relation("UserComments")
-  
 }
 
 model Recipe {
-  id          Int        @id @default(autoincrement())
+  id          String     @id @default(uuid())
   title       String
   description String
   ingredients String[]
@@ -33,20 +32,20 @@ model Recipe {
 }
 
 model Favorite {
-  id       Int    @id @default(autoincrement())
+  id       String  @id @default(uuid())
   userId   String
-  recipeId Int
-  user     Users  @relation("UserFavorites", fields: [userId], references: [id])
-  recipe   Recipe @relation("RecipeFavorites", fields: [recipeId], references: [id])
+  recipeId String
+  user     Users   @relation("UserFavorites", fields: [userId], references: [id])
+  recipe   Recipe  @relation("RecipeFavorites", fields: [recipeId], references: [id])
 
   @@unique([userId, recipeId])
 }
 
 model Comment {
-  id       Int    @id @default(autoincrement())
+  id       String  @id @default(uuid())
   text     String
   userId   String
-  recipeId Int
-  user     Users  @relation("UserComments", fields: [userId], references: [id])
-  recipe   Recipe @relation("RecipeComments", fields: [recipeId], references: [id])
+  recipeId String
+  user     Users   @relation("UserComments", fields: [userId], references: [id])
+  recipe   Recipe  @relation("RecipeComments", fields: [recipeId], references: [id])
 }
