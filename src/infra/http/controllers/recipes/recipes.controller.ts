@@ -48,7 +48,6 @@ export class RecipesController {
       recipeId,
       addCommentDTO
     );
-     console.log(comment)
     return comment;
   }
 

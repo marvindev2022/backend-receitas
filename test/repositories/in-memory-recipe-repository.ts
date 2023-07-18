@@ -54,7 +54,8 @@ export class InMemoryRecipeRepository extends RecipeRepository {
     if (!recipe) {
       throw new NotFoundException("Recipe not found");
     }
-    recipe.comments.push(comment.text);
+    const newComment = new Comment(comment)
+    recipe.comments.push(newComment);
   }
 
   async findCommentById(commentId: string): Promise<Comment | undefined> {
