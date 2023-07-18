@@ -1,11 +1,11 @@
-import { MissingParamError } from '@app/errors/MissingParamError';
-import { PrismaService } from '@infra/database/prisma/prisma.service';
+import { MissingParamError } from "@app/errors/MissingParamError";
+import { PrismaService } from "@infra/database/prisma/prisma.service";
 import {
   BadRequestException,
   Injectable,
   NestMiddleware,
-} from '@nestjs/common';
-import { Request, Response, NextFunction } from 'express';
+} from "@nestjs/common";
+import { Request, Response, NextFunction } from "express";
 
 @Injectable()
 export class EmailAlreadyExistsMiddleware implements NestMiddleware {
@@ -14,7 +14,7 @@ export class EmailAlreadyExistsMiddleware implements NestMiddleware {
     const { email } = req.body;
 
     if (!email) {
-      const missingParam = new MissingParamError('email');
+      const missingParam = new MissingParamError("email");
       throw new BadRequestException(missingParam.message);
     }
 
@@ -24,7 +24,7 @@ export class EmailAlreadyExistsMiddleware implements NestMiddleware {
     });
 
     if (databaseRegister?.email) {
-      throw new BadRequestException('Usuario já existe');
+      throw new BadRequestException("Usuario já existe");
     }
 
     next();

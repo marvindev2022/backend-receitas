@@ -24,10 +24,11 @@ A API da Plataforma de Compartilhamento de Receitas permite a interação com os
 
 1. Clone o repositório:
 
-
+```code
    git clone https://github.com/seu-usuario/seu-projeto.git
-Instale as dependências:
+ ```  
 
+ Instale as dependências:
 
 ```code
 cd seu-projeto
@@ -38,20 +39,17 @@ Configure as variáveis de ambiente:
 
 Crie um arquivo .env na raiz do projeto e defina as seguintes variáveis:
 
-
 ```code
 DATABASE_URL=postgres://seu-usuario:senha@localhost:5432/nome-do-banco
 ```
 
-Execute as migrações do banco de dados:
-
+ Execute as migrações do banco de dados:
 
 ```code
 npx prisma migrate dev
 ```
 
-Inicie o servidor:
-
+ Inicie o servidor:
 
 ```code
 npm start
@@ -66,22 +64,19 @@ Se desejar contribuir para o projeto, siga as etapas abaixo:
 
 Faça um fork do repositório.
 
-Crie uma branch para a sua feature ou correção:
-
+ Crie uma branch para a sua feature ou correção:
 
 ```code
 git checkout -b minha-feature
 ```
 
-Faça as alterações desejadas e faça commit:
-
+ Faça as alterações desejadas e faça commit:
 
 ```code
 git commit -m "Minha alteração"
 ```
 
-Faça o push para o seu fork:
-
+ Faça o push para o seu fork:
 
 ```code
 git push origin minha-feature
@@ -217,16 +212,19 @@ Parâmetros:
 userId: ID do usuário
 recipeId: ID da receita
 commentId: ID do comentário
+
 Adicionar uma receita aos favoritos
 Método: POST
 **Endpoint: /users/:userId/recipes**/:recipeId/favorite
 Parâmetros:
 userId: ID do usuário
 recipeId: ID da receita
+
 Remover uma receita dos favoritos
 Método: DELETE
 **Endpoint: /users/:userId/recipes**/:recipeId/favorite
 Parâmetros:
 userId: ID do usuário
 recipeId: ID da receita
-Lembre-se de substituir :id, :userId, :recipeId e :commentId pelos IDs reais nos endpoints.
+
+Lembre-se de substituir :id, :userId, :recipeId e :commentId pelos IDs reais nos endpoints

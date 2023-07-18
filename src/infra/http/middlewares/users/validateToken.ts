@@ -20,7 +20,7 @@ export class ValidateToken implements NestMiddleware {
     if (!token) {
       throw new InvalidParamError("Token");
     }
-    const passwordSecret =  process.env.JWT_SECRET
+    const passwordSecret = process.env.JWT_SECRET;
     if (passwordSecret && !verify(token, passwordSecret)) {
       throw new UnauthorizedException(
         "Você não tem permissão de acessar este recurso"

@@ -59,7 +59,6 @@ export class User {
       name: z.string().min(3, { message: "Invalid" }),
       email: z.string().email().min(6, { message: "Invalid" }),
       password: z.string().min(6, { message: "Invalid" }),
-      favoriteRecipes: z.array(z.string()), // Validação do array de IDs de receitas favoritas
     });
 
     const userIsValid = userSchema.safeParse(params);

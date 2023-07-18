@@ -6,7 +6,6 @@ import { MissingParamError } from "@app/errors/MissingParamError";
 import { z } from "zod";
 
 export interface CommentProps {
-  id?: string;
   text: string;
   user: string;
   recipe: string;
@@ -30,8 +29,6 @@ export class Comment {
 
     this.props = {
       ...newComment.body,
-      id: generateCommentId(),
-      text: data.text,
       user: data.user,
       recipe: data.recipe,
     };
@@ -54,7 +51,6 @@ export class Comment {
 
   private isValid(data: AddCommentDTO): IsValidMethodReturn {
     const commentSchema = z.object({
-      id: z.string(),
       text: z.string(),
       user: z.instanceof(User),
       recipe: z.instanceof(Recipe),
@@ -84,6 +80,4 @@ export class Comment {
     };
   }
 }
-function generateCommentId(): string {
-  return `${Number(new Date())}`;
-}
+

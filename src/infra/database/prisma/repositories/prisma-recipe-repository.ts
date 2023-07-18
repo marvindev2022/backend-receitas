@@ -1,35 +1,38 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma.service";
 import { Recipe } from "@domainRecipe/Recipe";
 import { Comment } from "@domainComment/Comments";
 import { EditCommentDTO } from "@infra/http/dtos/Comment/editComment.dto";
 import { EditRecipeDTO } from "@infra/http/dtos/Recipe/editRecipe.dto";
-import { NotFoundException } from "@nestjs/common";
-import { AddRecipeDTO } from "@infra/http/dtos/Recipe/addRecipe.dto";
 import { AddCommentDTO } from "@infra/http/dtos/Comment/addComment.dto";
 
 @Injectable()
 export class PrismaRecipesRepository {
   constructor(private prismaService: PrismaService) {}
 
-  async addRecipe(id: string, recipe: AddRecipeDTO): Promise<any> {
-    const user = await this.prismaService.users.findUnique({
-      where: { id },
-    });
+  async addRecipe(userId: string, recipe: Recipe): Promise<any> {
+    try {
+      const user = await this.prismaService.users.findUnique({
+        where: { id: userId },
+      });
 
-    if (!user) {
-      throw new NotFoundException("User not found");
-    }
-    if (id)
+      if (!user) {
+        throw new BadRequestException("Usuário não encontrado!");
+      }
+
       await this.prismaService.recipe.create({
         data: {
-          title: recipe.title,
-          description: recipe.description,
-          ingredients: recipe.ingredients,
-          steps: recipe.steps,
-          author: { connect: { id } },
+          title: recipe.props.title,
+          description: recipe.props.description,
+          ingredients: recipe.props.ingredients,
+          steps: recipe.props.steps,
+          author: { connect: { id: userId } },
         },
       });
+    } catch (error) {
+      console.error(error);
+      throw new BadRequestException("Ocorreu um erro ao adicionar a receita.");
+    }
   }
 
   async editRecipe(
@@ -42,7 +45,7 @@ export class PrismaRecipesRepository {
     });
 
     if (!user) {
-      throw new NotFoundException("User not found");
+      throw new BadRequestException("Usuário não encontrado!");
     }
 
     await this.prismaService.recipe.update({
@@ -60,7 +63,7 @@ export class PrismaRecipesRepository {
     });
 
     if (!user) {
-      throw new NotFoundException("User not found");
+      throw new BadRequestException("User not found");
     }
 
     await this.prismaService.recipe.delete({
@@ -82,7 +85,7 @@ export class PrismaRecipesRepository {
     });
 
     if (!author) {
-      throw new NotFoundException("Author not found");
+      throw new BadRequestException("Author not found");
     }
 
     const recipeData: {
@@ -112,7 +115,7 @@ export class PrismaRecipesRepository {
     });
 
     if (!user) {
-      throw new NotFoundException("User not found");
+      throw new BadRequestException("User not found");
     }
 
     const recipe = await this.prismaService.recipe.findUnique({
@@ -120,7 +123,7 @@ export class PrismaRecipesRepository {
     });
 
     if (!recipe) {
-      throw new NotFoundException("Recipe not found");
+      throw new BadRequestException("Recipe not found");
     }
 
     await this.prismaService.comment.create({
@@ -143,7 +146,7 @@ export class PrismaRecipesRepository {
     });
 
     if (!user) {
-      throw new NotFoundException("User not found");
+      throw new BadRequestException("User not found");
     }
 
     const comment = await this.prismaService.comment.findUnique({
@@ -151,7 +154,7 @@ export class PrismaRecipesRepository {
     });
 
     if (!comment) {
-      throw new NotFoundException("Comment not found");
+      throw new BadRequestException("Comment not found");
     }
 
     await this.prismaService.comment.update({
@@ -174,7 +177,7 @@ export class PrismaRecipesRepository {
     });
 
     if (!user) {
-      throw new NotFoundException("User not found");
+      throw new BadRequestException("User not found");
     }
 
     await this.prismaService.comment.delete({
@@ -196,7 +199,7 @@ export class PrismaRecipesRepository {
     });
 
     if (!user) {
-      throw new NotFoundException("User not found");
+      throw new BadRequestException("User not found");
     }
 
     const recipe = await this.prismaService.recipe.findUnique({
@@ -204,7 +207,7 @@ export class PrismaRecipesRepository {
     });
 
     if (!recipe) {
-      throw new NotFoundException("Recipe not found");
+      throw new BadRequestException("Recipe not found");
     }
 
     const commentData: AddCommentDTO = {
