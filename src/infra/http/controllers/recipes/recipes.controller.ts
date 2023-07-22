@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from "@nestjs/common";
 import { RecipeService } from "@infra/http/services/Recipe/recipes.service";
 import { AddRecipeDTO } from "@infra/http/dtos/Recipe/addRecipe.dto";
 import { EditRecipeDTO } from "@infra/http/dtos/Recipe/editRecipe.dto";
@@ -43,7 +51,11 @@ export class RecipesController {
     @Param("recipeId") recipeId: string,
     @Body() addCommentDTO: AddCommentDTO
   ) {
-    const comment = await this.recipeService.addComment(userId,recipeId,addCommentDTO);
+    const comment = await this.recipeService.addComment(
+      userId,
+      recipeId,
+      addCommentDTO
+    );
     return comment;
   }
 
@@ -73,13 +85,11 @@ export class RecipesController {
 
   @Get("/all")
   async getAllRecipes(): Promise<any> {
-    try{
-    const recipesData = await this.recipeService.findAllRecipes();
- console.log(recipesData)
-    return recipesData;}catch(error){
-      console.log(error)
+    try {
+      const recipesData = await this.recipeService.findAllRecipes();
+      return recipesData;
+    } catch (error) {
+      console.log(error);
     }
-
   }
- 
 }

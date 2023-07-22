@@ -6,6 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "prisma:generate": "npx prisma generate",
     "vercel-build": "npm run build",
     "vercel-start": "npm run start:prod",
     "build": "nest build",

@@ -21,7 +21,7 @@ export abstract class RecipeRepository {
 
   abstract deleteRecipe(userId: string, recipeId: string): Promise<void>;
 
-  abstract findRecipeById(userId:string,recipeId: string): Promise<Recipe | Error>;
+  abstract findRecipeById(recipeId: string): Promise<Recipe | Error>;
 
   abstract addComment(
     userId: string,

@@ -14,14 +14,12 @@ export class InMemoryRecipeRepository extends RecipeRepository {
     this.recipes.push(newRecipe);
   }
 
-  async findRecipeById(userId:string,recipeId: string): Promise<Recipe > {
-    const recipe = await this.findRecipeById(userId,recipeId);
+  async findRecipeById(recipeId: string): Promise<Recipe > {
+    const recipe = await this.findRecipeById(recipeId);
     if (!recipe) {
       throw new NotFoundException("Recipe not found");
     }
-    if (recipe.props.author !== userId) {
-      throw new NotFoundException("Unauthorized");
-    }
+    
     return recipe
   }
 

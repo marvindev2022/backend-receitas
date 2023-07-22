@@ -31,7 +31,7 @@ export class RecipeService {
     recipeId: string,
     request: EditRecipeDTO
   ): Promise<void | Error> {
-    const recipe = await this.recipeRepository.findRecipeById(userId, recipeId);
+    const recipe = await this.recipeRepository.findRecipeById(recipeId);
     if (!recipe) {
       throw new NotFoundException("Receita não encontrada");
     }
@@ -40,7 +40,7 @@ export class RecipeService {
   }
 
   async deleteRecipe(userId: string, recipeId: string): Promise<void | Error> {
-    const recipe = await this.recipeRepository.findRecipeById(userId, recipeId);
+    const recipe = await this.recipeRepository.findRecipeById( recipeId);
     if (!recipe) {
       throw new NotFoundException("Receita não encontrada");
     }
@@ -53,9 +53,7 @@ export class RecipeService {
     recipeId: string,
     request: AddCommentDTO
   ): Promise<Comment | Error> {
-    console.log(userId, recipeId);
-    const recipe = await this.recipeRepository.findRecipeById(userId, recipeId);
-    console.log(recipe);
+    const recipe = await this.recipeRepository.findRecipeById(recipeId);
     if (!recipe) {
       throw new NotFoundException("Receita não encontrada!");
     }
