@@ -25,27 +25,33 @@ model Recipe {
   steps       String[]
   author      Users      @relation(fields: [authorId], references: [id])
   authorId    String
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  createdAt   DateTime?   @default(now())
+  updatedAt   DateTime?   @updatedAt
   favorites   Favorite[] @relation("RecipeFavorites")
   comments    Comment[]  @relation("RecipeComments")
 }
 
 model Favorite {
-  id       String  @id @default(uuid())
+  id       String @id @default(uuid())
   userId   String
   recipeId String
-  user     Users   @relation("UserFavorites", fields: [userId], references: [id])
-  recipe   Recipe  @relation("RecipeFavorites", fields: [recipeId], references: [id])
+  user     Users  @relation("UserFavorites", fields: [userId], references: [id])
+  recipe   Recipe @relation("RecipeFavorites", fields: [recipeId], references: [id])
 
   @@unique([userId, recipeId])
 }
 
 model Comment {
-  id       String  @id @default(uuid())
+  id       String @id @default(uuid())
   text     String
   userId   String
   recipeId String
-  user     Users   @relation("UserComments", fields: [userId], references: [id])
-  recipe   Recipe  @relation("RecipeComments", fields: [recipeId], references: [id])
+  user     Users  @relation("UserComments", fields: [userId], references: [id])
+  recipe   Recipe @relation("RecipeComments", fields: [recipeId], references: [id])
+}
+
+model Categories {
+  id   String @id @default(uuid())
+  name String
+  url  String
 }

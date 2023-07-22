@@ -1,20 +1,28 @@
 import { RecipeRepository } from "@app/repositories/Recipe/recipe";
 import { Recipe } from "@domain/Recipe/Recipe";
 import { Comment } from "@domain/Comment/Comments";
-import { NotFoundException } from "@nestjs/common";
+import { BadRequestException, NotFoundException } from "@nestjs/common";
 import { EditRecipeDTO } from "@infra/http/dtos/Recipe/editRecipe.dto";
 import { AddCommentDTO } from "@infra/http/dtos/Comment/addComment.dto";
 import { EditCommentDTO } from "@infra/http/dtos/Comment/editComment.dto";
 
 export class InMemoryRecipeRepository extends RecipeRepository {
+ 
   public recipes: Recipe[] = [];
   async addRecipe(userId: string, recipe: Recipe): Promise<void> {
     const newRecipe = new Recipe(recipe, userId);
     this.recipes.push(newRecipe);
   }
 
-  async findRecipeById(recipeId: string): Promise<Recipe | undefined> {
-    return this.recipes.find((recipe) => recipe.props.id === recipeId);
+  async findRecipeById(userId:string,recipeId: string): Promise<Recipe > {
+    const recipe = await this.findRecipeById(userId,recipeId);
+    if (!recipe) {
+      throw new NotFoundException("Recipe not found");
+    }
+    if (recipe.props.author !== userId) {
+      throw new NotFoundException("Unauthorized");
+    }
+    return recipe
   }
 
   async editRecipe(
@@ -22,7 +30,7 @@ export class InMemoryRecipeRepository extends RecipeRepository {
     recipeId: string,
     newData: EditRecipeDTO
   ): Promise<void> {
-    const recipe = await this.findRecipeById(recipeId);
+    const recipe = await this.findRecipeById(userId,recipeId);
     if (!recipe) {
       throw new NotFoundException("Recipe not found");
     }
@@ -50,7 +58,7 @@ export class InMemoryRecipeRepository extends RecipeRepository {
     recipeId: string,
     comment: AddCommentDTO
   ): Promise<void> {
-    const recipe = await this.findRecipeById(recipeId);
+    const recipe = await this.findRecipeById(userId,recipeId);
     if (!recipe) {
       throw new NotFoundException("Recipe not found");
     }
@@ -58,15 +66,19 @@ export class InMemoryRecipeRepository extends RecipeRepository {
     recipe.comments.push(newComment);
   }
 
-  async findCommentById(commentId: string): Promise<Comment | undefined> {
+  async findCommentById(commentId: string): Promise<Comment | Error> {
+   let commentSelect = null
     for (const recipe of this.recipes) {
       for (const comment of recipe.comments) {
         if (comment.id === commentId) {
-          return comment;
+          commentSelect = comment;
         }
       }
     }
-    return undefined;
+    if(!commentSelect) {
+      throw new BadRequestException("")
+    } 
+    return commentSelect
   }
 
   async editComment(
@@ -107,5 +119,14 @@ export class InMemoryRecipeRepository extends RecipeRepository {
       }
     }
     throw new NotFoundException("Comment not found");
+  }
+  
+  async findAllRecipes(): Promise<any > {
+    const recipe = await this.findAllRecipes();
+    if (!recipe) {
+      throw new NotFoundException("Recipe not found");
+    }
+   
+    return recipe
   }
 }

@@ -5,6 +5,7 @@ import { InvalidParamError } from "@app/errors/InvalidParamError";
 import { MissingParamError } from "@app/errors/MissingParamError";
 import { z } from "zod";
 
+
 export interface RecipeProps {
   id?: string;
   title: string;

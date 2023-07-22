@@ -105,6 +105,11 @@ export class PrismaRecipesRepository {
     return new Recipe(recipeData, author.id);
   }
 
+  async findAllRecipes(): Promise<any> {
+    const recipes = await this.prismaService.recipe.findMany();
+    return recipes;
+  }
+
   async addComment(
     userId: string,
     recipeId: string,
@@ -113,7 +118,6 @@ export class PrismaRecipesRepository {
     const user = await this.prismaService.users.findUnique({
       where: { id: userId },
     });
-
     if (!user) {
       throw new BadRequestException("User not found");
     }
@@ -121,7 +125,6 @@ export class PrismaRecipesRepository {
     const recipe = await this.prismaService.recipe.findUnique({
       where: { id: recipeId },
     });
-
     if (!recipe) {
       throw new BadRequestException("Recipe not found");
     }

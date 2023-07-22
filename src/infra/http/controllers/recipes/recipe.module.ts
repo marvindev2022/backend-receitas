@@ -5,10 +5,10 @@ import {
   RequestMethod,
 } from "@nestjs/common";
 import { RecipesDatabaseModule } from "@infra/database/prisma/repositories/prisma-recipe-database.module";
-import { RecipesController } from "./recipes.controller";
 import { RecipeService } from "@infra/http/services/Recipe/recipes.service";
 import { PrismaService } from "@infra/database/prisma/prisma.service";
 import { ValidateToken } from "@infra/http/middlewares/users/validateToken";
+import { RecipesController } from "./recipes.controller";
 
 @Module({
   imports: [RecipesDatabaseModule],

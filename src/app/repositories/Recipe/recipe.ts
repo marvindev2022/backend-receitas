@@ -21,7 +21,7 @@ export abstract class RecipeRepository {
 
   abstract deleteRecipe(userId: string, recipeId: string): Promise<void>;
 
-  abstract findRecipeById(recipeId: string): Promise<Recipe | undefined>;
+  abstract findRecipeById(userId:string,recipeId: string): Promise<Recipe | Error>;
 
   abstract addComment(
     userId: string,
@@ -42,9 +42,8 @@ export abstract class RecipeRepository {
     commentId: string
   ): Promise<void>;
 
-  abstract findCommentById(commentId: string): Promise<Comment | undefined>;
+  abstract findCommentById(commentId: string): Promise<Comment | Error>;
 
-  // abstract favoriteRecipe(userId:string, recipe: Recipe): Promise<void | Error>;
+  abstract findAllRecipes(): Promise<Recipe[]>;
 
-  // abstract unfavoriteRecipe(userId:string, recipe: Recipe): Promise<void | Error>;
 }
