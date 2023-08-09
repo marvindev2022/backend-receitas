@@ -16,6 +16,7 @@ import { EditRecipeDTO } from "@infra/http/dtos/Recipe/editRecipe.dto";
          id: recipeId,
          ingredients: ["Ingredient 1", "Ingredient 2"],
          steps: ["Step 1", "Step 2"],
+         category: "outher"
          
        };
 
@@ -26,6 +27,7 @@ import { EditRecipeDTO } from "@infra/http/dtos/Recipe/editRecipe.dto";
              description: "Description 1",
              ingredients: ["Ingredient 1", "Ingredient 2"],
              steps: ["Step 1", "Step 2"],
+             category:"outher"
            },
            userId
          )
@@ -51,6 +53,7 @@ import { EditRecipeDTO } from "@infra/http/dtos/Recipe/editRecipe.dto";
          id: recipeId,
          ingredients: ["Ingredient 1", "Ingredient 2"],
          steps: ["Step 1", "Step 2"],
+         category:"outher"
        };
 
        await expect(

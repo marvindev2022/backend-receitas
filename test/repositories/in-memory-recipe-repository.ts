@@ -28,7 +28,7 @@ export class InMemoryRecipeRepository extends RecipeRepository {
     recipeId: string,
     newData: EditRecipeDTO
   ): Promise<void> {
-    const recipe = await this.findRecipeById(userId,recipeId);
+    const recipe = await this.findRecipeById(recipeId);
     if (!recipe) {
       throw new NotFoundException("Recipe not found");
     }
@@ -56,7 +56,7 @@ export class InMemoryRecipeRepository extends RecipeRepository {
     recipeId: string,
     comment: AddCommentDTO
   ): Promise<void> {
-    const recipe = await this.findRecipeById(userId,recipeId);
+    const recipe = await this.findRecipeById(recipeId);
     if (!recipe) {
       throw new NotFoundException("Recipe not found");
     }

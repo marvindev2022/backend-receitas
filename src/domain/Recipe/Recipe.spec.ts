@@ -14,6 +14,7 @@ describe("Recipe", () => {
         description: "any_description",
         ingredients: ["any_ingredients"],
         steps: ["any_steps"],
+        category: "any_category",
       },
       params: {
         author: "any_id",
@@ -29,6 +30,7 @@ describe("Recipe", () => {
         title: "any_title",
         ingredients: ["any_ingredients"],
         steps: ["any_steps"],
+        category: "any_category",
       },
       params: {
         author: "any_id",
@@ -46,6 +48,7 @@ describe("Recipe", () => {
         title: "any_title",
         description: "any_description",
         steps: ["any_steps"],
+        category: "any_category",
       },
       params: {
         author: "any_id",
@@ -62,12 +65,30 @@ describe("Recipe", () => {
         title: "any_title",
         description: "any_description",
         ingredients: ["any_ingredients"],
+        category: "any_category",
       },
       params: {
         author: "any_id",
       },
     };
     expect(() => makeSut(httpRequest)).toThrow(new MissingParamError("steps"));
+  });
+
+  it("should throw missing error param if no category is provided", () => {
+    const httpRequest = {
+      body: {
+        title: "any_title",
+        description: "any_description",
+        ingredients: ["any_ingredients"],
+        steps: ["any_steps"],
+      },
+      params: {
+        author: "any_id",
+      },
+    };
+    expect(() => makeSut(httpRequest)).toThrow(
+      new MissingParamError("category")
+    );
   });
 
   it("should return a new recipe if request is valid", () => {
@@ -77,6 +98,7 @@ describe("Recipe", () => {
         description: "any_description",
         ingredients: ["any_ingredients"],
         steps: ["any_steps"],
+        category: "any_category",
       },
       params: {
         author: "any_id",

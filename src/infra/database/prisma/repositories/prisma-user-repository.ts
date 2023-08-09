@@ -39,7 +39,7 @@ export class PrismaUserRepository implements UserRepository {
     return id;
   }
 
-  async login(account: UserLoginDTO): Promise<string | BadRequestException> {
+  async login(account: UserLoginDTO): Promise<any | BadRequestException> {
     const databaseStored = await this.prismaService.users.findUnique({
       where: { email: account.email },
     });
@@ -53,8 +53,8 @@ export class PrismaUserRepository implements UserRepository {
     ) {
       throw new BadRequestException("Usuário ou senha inválidos");
     }
-
-    return sign({ id: databaseStored.id }, process.env.JWT_SECRET!);
+  const {password,...user} = databaseStored
+    return ({...user,token:sign({ id: databaseStored.id }, process.env.JWT_SECRET!)});
   }
 
   async edit(

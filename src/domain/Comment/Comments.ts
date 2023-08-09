@@ -7,8 +7,7 @@ import { z } from "zod";
 
 export interface CommentProps {
   text: string;
-  user: string;
-  recipe: string;
+ 
 }
 interface NewComment {
   body: CommentProps;
@@ -29,8 +28,6 @@ export class Comment {
 
     this.props = {
       ...newComment.body,
-      user: data.user,
-      recipe: data.recipe,
     };
   }
   private handle(data: AddCommentDTO): NewComment {
@@ -52,8 +49,6 @@ export class Comment {
   private isValid(data: AddCommentDTO): IsValidMethodReturn {
     const commentSchema = z.object({
       text: z.string(),
-      user: z.instanceof(User),
-      recipe: z.instanceof(Recipe),
     });
 
     const commentIsValid = commentSchema.safeParse(data);

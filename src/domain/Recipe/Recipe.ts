@@ -13,6 +13,7 @@ export interface RecipeProps {
   ingredients: string[];
   steps: string[];
   author?: string;
+  category:string;
   createdAt?: Date;
   updatedAt?: Date;
   favorites?: Favorite[];
@@ -73,6 +74,7 @@ export class Recipe {
       description: z.string().min(6, { message: "Invalid" }),
       ingredients: z.array(z.string()),
       steps: z.array(z.string()),
+      category:z.string().min(6, { message: "invalid" }),
     });
 
     const recipeIsValid = recipeSchema.safeParse(data);

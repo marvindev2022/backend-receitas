@@ -7,7 +7,7 @@ import { NotFoundException } from "@nestjs/common";
 export abstract class UserRepository {
   abstract register(user: User): Promise<string>;
 
-  abstract login(account: UserLoginDTO): Promise<string | Error>;
+  abstract login(account: UserLoginDTO): Promise<any | Error>;
 
   abstract edit(userId: string, account: EditUserDTO): Promise<void | Error>;
 

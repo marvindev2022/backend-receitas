@@ -25,6 +25,7 @@ model Recipe {
   steps       String[]
   author      Users      @relation(fields: [authorId], references: [id])
   authorId    String
+  category    String
   createdAt   DateTime?   @default(now())
   updatedAt   DateTime?   @updatedAt
   favorites   Favorite[] @relation("RecipeFavorites")

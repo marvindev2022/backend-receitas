@@ -14,15 +14,16 @@ describe("RecipeService", () => {
       description: "Description 1",
       ingredients: ["Ingredient 1", "Ingredient 2"],
       steps: ["Step 1", "Step 2"],
+      category: "outher",
     };
 
     const result = await recipeService.addRecipe(userId, recipeData);
-    
 
     expect(result).toBeInstanceOf(Recipe);
     expect(result).toBe(recipeData.title);
     expect(result).toBe(recipeData.description);
     expect(result).toEqual(recipeData.ingredients);
     expect(result).toEqual(recipeData.steps);
+    expect(result).toEqual(recipeData.category);
   });
 });

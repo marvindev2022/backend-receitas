@@ -27,6 +27,7 @@ export class PrismaRecipesRepository {
           ingredients: recipe.props.ingredients,
           steps: recipe.props.steps,
           author: { connect: { id: userId } },
+          category: recipe.props.category
         },
       });
     } catch (error) {
@@ -94,12 +95,14 @@ export class PrismaRecipesRepository {
       description: string;
       ingredients: string[];
       steps: string[];
+      category:string;
     } = {
       id: String(recipe.id),
       title: recipe.title,
       description: recipe.description,
       ingredients: recipe.ingredients,
       steps: recipe.steps,
+      category:recipe.category
     };
 
     return new Recipe(recipeData, author.id);

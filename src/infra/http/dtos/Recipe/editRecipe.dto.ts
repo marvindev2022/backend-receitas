@@ -4,4 +4,5 @@ export interface EditRecipeDTO {
   description?: string;
   ingredients?: string[];
   steps?: string[];
+  category:string;
 }
