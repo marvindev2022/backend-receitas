@@ -7,8 +7,6 @@
   "license": "UNLICENSED",
   "scripts": {
     "prisma:generate": "npx prisma generate",
-    "vercel-build": "npm run build",
-    "vercel-start": "npm run start:prod",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
@@ -43,8 +41,6 @@
     "prisma": "^4.15.0",
     "reflect-metadata": "^0.1.13",
     "swagger-ui-express": "^4.6.3",
-    "uuid": "^9.0.0",
-    "vercel": "^30.2.1",
     "zod": "^3.21.4"
   },
   "devDependencies": {
