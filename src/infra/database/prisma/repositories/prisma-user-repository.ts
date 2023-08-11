@@ -11,7 +11,7 @@ import { UserLoginDTO } from "@infra/http/dtos/User/login.dto";
 import { compareToEncrypted } from "@app/protocols/crypto/compare/compareToEncrypted";
 import { EditUserDTO } from "@infra/http/dtos/User/editUser.dto";
 import { FindedUserDTO } from "@infra/http/dtos/User/findedUser.dto";
-import { Recipe } from "@domainRecipe/Recipe";
+import { Recipe } from "@domain/Recipe/Recipe";
 
 @Injectable()
 export class PrismaUserRepository implements UserRepository {

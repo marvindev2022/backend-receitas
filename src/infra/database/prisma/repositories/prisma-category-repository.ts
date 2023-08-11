@@ -1,7 +1,7 @@
 import { CategoriesRepository } from "@app/repositories/Categories/category";
 import { PrismaService } from "../prisma.service";
 import {  Injectable } from "@nestjs/common";
-import { Category } from "@domainCategories/Categories";
+import { Category } from "@domain/Categories/Categories";
 
 
 @Injectable()
@@ -13,7 +13,7 @@ async findAllCategories(): Promise<Category['props'][]> {
     const categoryList = categories.map((category) => ({
       name: category.name,
       url: category.url,
-     
+
     }));
 
     return categoryList;

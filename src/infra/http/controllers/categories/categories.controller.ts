@@ -1,4 +1,4 @@
-import { Category } from "@domainCategories/Categories";
+import { Category } from "@domain/Categories/Categories";
 import { CategoryService } from "@infra/http/services/category/category.service";
 import { Controller, Get } from "@nestjs/common";
 
@@ -9,6 +9,6 @@ export class CategoryController {
   @Get("all")
   async findAllCategories(): Promise<Category['props'][] | Error> {
     return   this.categoryService.getAllCategories();
-    
+
   }
 }

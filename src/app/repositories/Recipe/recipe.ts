@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { Recipe } from "@domainRecipe/Recipe";
-import { Comment } from "@domainComment/Comments";
+import { Recipe } from "@domain/Recipe/Recipe";
+import { Comment } from "@domain/Comment/Comments";
 import { EditCommentDTO } from "@infra/http/dtos/Comment/editComment.dto";
 import { EditRecipeDTO } from "@infra/http/dtos/Recipe/editRecipe.dto";
 import { AddCommentDTO } from "@infra/http/dtos/Comment/addComment.dto";
