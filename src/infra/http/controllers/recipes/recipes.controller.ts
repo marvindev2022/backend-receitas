@@ -83,7 +83,7 @@ export class RecipesController {
     await this.recipeService.deleteComment(userId, recipeId, commentId);
   }
 
-  @Get("/all")
+  @Get("all")
   async getAllRecipes(): Promise<any> {
     try {
       const recipesData = await this.recipeService.findAllRecipes();
