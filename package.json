@@ -5,6 +5,9 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "engines": {
+    "node": ">=17 <19"
+  },
   "scripts": {
     "prisma:generate": "npx prisma generate",
     "build": "npx @nestjs/cli build",
